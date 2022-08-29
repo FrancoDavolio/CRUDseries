@@ -49,7 +49,7 @@ function crearFila(serie) {
   <td>${serie.genero}</td>
   <td>
     <button class="btn btn-warning" >
-      <i class="bi bi-pencil-square"></i>
+      <i class="bi bi-pencil-square" onclick='editarSerie("${serie.codigo}")'></i>
     </button>
     <button class="btn btn-danger" onclick='borrarSerie("${serie.codigo}")'>
       <i class="bi bi-x-square"></i>
@@ -126,6 +126,18 @@ function limpiarFormulario() {
 
 function guardarSerieEnLocalStorage() {
   localStorage.setItem("listaSeriesKey", JSON.stringify(listaSeries));
+}
+
+window.editarSerie = function(codigoBuscado){
+  console.log(codigoBuscado);
+  let serieBuscada = listaSeries.find((serie)=> serie.codigo === codigoBuscado);
+  modalAdminSerie.show();
+  codigo.value = serieBuscada.codigo;
+  titulo.value = serieBuscada.titulo;
+  descripcion.value = serieBuscada.descripcion;
+  imagen.value = serieBuscada.imagen;
+  genero.value = serieBuscada.genero;
+  
 }
 
 window.borrarSerie = function (codigo) {
