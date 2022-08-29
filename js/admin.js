@@ -129,17 +129,32 @@ function guardarSerieEnLocalStorage() {
 }
 
 window.borrarSerie = function (codigo) {
-  console.log(codigo);
-  //buscar la serie en el arreglo y borrarla
-  let copiaListaSerie = listaSeries.filter(
-    (itemSerie) => itemSerie.codigo != codigo
-  );
-  listaSeries = copiaListaSerie;
-  //actualizar el localstorage
-  guardarSerieEnLocalStorage();
-  //actualizar la tabla
-  borrarTabla();
-  cargarInicial();
+  //mostrar un a pregunta antess de borrar serie
+  Swal.fire({
+    title: "Estas seguro de borrar la serie?",
+    text: "Este proceso no se puede revertir!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Borrar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(codigo);
+      //buscar la serie en el arreglo y borrarla
+      let copiaListaSerie = listaSeries.filter(
+        (itemSerie) => itemSerie.codigo != codigo
+      );
+      listaSeries = copiaListaSerie;
+      //actualizar el localstorage
+      guardarSerieEnLocalStorage();
+      //actualizar la tabla
+      borrarTabla();
+      cargarInicial();
+      Swal.fire("Serie Eliminada!", "La serie fue eliminada.", "success");
+    }
+  });
 };
 
 function borrarTabla() {
