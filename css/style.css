@@ -5,3 +5,9 @@
 .bordeA{
     width: 110px;
 }
+
+.icono{
+    position: relative;
+    left: 130px;
+    bottom: 52px;
+}

@@ -1,6 +1,6 @@
 export function validarCodigo(input) {
-  let patron = /^[0-9]{1,3}$/;
-  if (patron.test(input.value)) {
+  // let patron = /^[0-9]{1,3}$/;
+  if (input.value == input.value) {
     input.className = "form-control is-valid";
     return true;
   } else {
