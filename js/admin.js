@@ -162,10 +162,10 @@ function actualizarSerie() {
 
   cargarInicial();
   Swal.fire(
-    'Buen Trabajo',
-    'Los datos de la pelicula fueron actualizados',
-    'success'
-  )
+    "Buen Trabajo",
+    "Los datos de la pelicula fueron actualizados",
+    "success"
+  );
   modalAdminSerie.hide();
 
   limpiarFormulario();
