@@ -17,11 +17,11 @@ let imagen = document.querySelector("#imagen");
 let genero = document.querySelector("#genero");
 let formSerie = document.querySelector("#formSerie");
 let btnCrearSerie = document.querySelector("#btnCrearSerie");
-
 // crear una instancia de la ventana modal
 const modalAdminSerie = new bootstrap.Modal(
   document.querySelector("#modalSerie")
 );
+let serieNueva = true;
 
 //agregar el evento
 btnCrearSerie.addEventListener("click", crearSerie);
@@ -60,6 +60,7 @@ function crearFila(serie) {
 }
 
 function crearSerie() {
+  serieNueva = true;
   //mostrar ventana modal
   modalAdminSerie.show();
   //generar el identificador unico y asignarlo al campo del codigo
@@ -93,27 +94,31 @@ function guardarSerie(e) {
     validarUrl(imagen) === true &&
     validarGenero(genero) === true
   ) {
-    //cuando los datos fueron validos
-    console.log("tengo que crear la persona");
-    //si los datos son correctos
-    let nuevaSerie = new Serie(
-      codigo.value,
-      titulo.value,
-      descripcion.value,
-      imagen.value,
-      genero.value
-    );
-    console.log(nuevaSerie);
-    listaSeries.push(nuevaSerie);
-    //guardar el arreglo en localstorage
-    guardarSerieEnLocalStorage();
-    //limpiar formulario
-    limpiarFormulario();
-    console.log(listaSeries);
-    //dibujar la fila en la tabla
-    crearFila(nuevaSerie);
-    //cerrar la ventana modal
-    modalAdminSerie.hide();
+    if (serieNueva) {
+      //cuando los datos fueron validos
+      console.log("tengo que crear la persona");
+      //si los datos son correctos
+      let nuevaSerie = new Serie(
+        codigo.value,
+        titulo.value,
+        descripcion.value,
+        imagen.value,
+        genero.value
+      );
+      console.log(nuevaSerie);
+      listaSeries.push(nuevaSerie);
+      //guardar el arreglo en localstorage
+      guardarSerieEnLocalStorage();
+      //limpiar formulario
+      limpiarFormulario();
+      console.log(listaSeries);
+      //dibujar la fila en la tabla
+      crearFila(nuevaSerie);
+      //cerrar la ventana modal
+      modalAdminSerie.hide();
+    } else {
+      actualizarSerie();
+    }
   } else {
     alert("Debe completar todos los datos");
   }
@@ -128,16 +133,38 @@ function guardarSerieEnLocalStorage() {
   localStorage.setItem("listaSeriesKey", JSON.stringify(listaSeries));
 }
 
-window.editarSerie = function(codigoBuscado){
+window.editarSerie = function (codigoBuscado) {
+  serieNueva = false;
   console.log(codigoBuscado);
-  let serieBuscada = listaSeries.find((serie)=> serie.codigo === codigoBuscado);
+  let serieBuscada = listaSeries.find(
+    (serie) => serie.codigo === codigoBuscado
+  );
   modalAdminSerie.show();
   codigo.value = serieBuscada.codigo;
   titulo.value = serieBuscada.titulo;
   descripcion.value = serieBuscada.descripcion;
   imagen.value = serieBuscada.imagen;
   genero.value = serieBuscada.genero;
+};
+
+function actualizarSerie() {
+  console.log("Actualizando...");
+  let posicionSerie = listaSeries.findIndex(
+    (serie) => codigo.value === serie.codigo
+  );
+  listaSeries[posicionSerie].titulo = titulo.value;
+  listaSeries[posicionSerie].descripcion = descripcion.value;
+  listaSeries[posicionSerie].imagen = imagen.value;
+  listaSeries[posicionSerie].genero = genero.value;
+
+  guardarSerieEnLocalStorage();
+  borrarTabla();
+
+  cargarInicial();
+
+  modalAdminSerie.hide();
   
+  limpiarFormulario();
 }
 
 window.borrarSerie = function (codigo) {
