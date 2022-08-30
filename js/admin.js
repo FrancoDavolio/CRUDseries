@@ -60,6 +60,7 @@ function crearFila(serie) {
 
 function crearSerie() {
   serieNueva = true;
+  limpiarFormulario();
   //mostrar ventana modal
   modalAdminSerie.show();
   //generar el identificador unico y asignarlo al campo del codigo
