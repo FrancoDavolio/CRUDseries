@@ -56,7 +56,6 @@ function crearFila(serie) {
     </button>
   </td>
 </tr>`;
-  console.log(tablaSerie);
 }
 
 function crearSerie() {
@@ -161,9 +160,13 @@ function actualizarSerie() {
   borrarTabla();
 
   cargarInicial();
-
+  Swal.fire(
+    'Buen Trabajo',
+    'Los datos de la pelicula fueron actualizados',
+    'success'
+  )
   modalAdminSerie.hide();
-  
+
   limpiarFormulario();
 }
 
